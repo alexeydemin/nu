@@ -16,28 +16,41 @@ class CapitalGains:
         print(type, f'{qty}×${price:.2f}')
 
         if type == 'buy':
-            self.weighted_avg_price = (self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty)
+            if self.qty == 0:
+                self.weighted_avg_price = price
+            else:
+                self.weighted_avg_price = (self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty)
             self.qty += qty
-            print(f'BUY EXPENSES = {qty} × ${price} =$' + '{:10,.2f}'.format(
-                self.weighted_avg_price * self.qty))
+            print(f'BUY EXPENSES = {qty} × ${price} =$' + '{:10,.2f}'.format(self.weighted_avg_price * self.qty))
             print(f'WAP={self.weighted_avg_price}')
+            print(f'SELL PROFIT_B = {self.profit}')
+            print()
             return 1
         else:
             self.profit += (price - self.weighted_avg_price) * qty
 
-            print(f'SELL REVENUE = {qty} × ${price}  = $' + '{:10,.2f}'.format(price * qty))
+            print(f'SELL REVENUE = {qty} × ${price}  = ' + '${:10,.2f}'.format(price * qty))
             print(f'SELL PROFIT = {self.profit}')
 
             if price * qty <= self.tax_threshold or self.profit <= 0:
+                print('WE ARE HERE')
+
+                self.qty -= qty
+                print(f'SELL PROFIT_BEFORE = {self.profit}')
+                # self.profit = min(self.profit, 0)
+                print(f'SELL PROFIT* = {self.profit}')
+                print()
                 return 1.5
 
-            # tax_base = self.profit *
+            tax = self.profit * self.tax_rate
             self.profit = min(self.profit, 0)
+            self.qty -= qty
             print(f'SELL PROFIT2 = {self.profit}')
             print(f'WAP2 = {self.weighted_avg_price}')
-            print(f'TAX_BASE = {self.weighted_avg_price} * {qty} + {self.profit})')
+            print(f'TAX = {tax}')
+            print()
 
-            return (self.weighted_avg_price * qty + self.profit) * self.tax_rate
+            return tax
 
     def get_taxes(self, line):
         events = json.loads('{"data": ' + line + '}')['data']
