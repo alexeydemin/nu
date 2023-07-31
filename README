@@ -1,0 +1,4 @@
+To run the program: python main.py
+To run tests: pytest
+
+I believe that the 9th case is incorrect. On the 6th step, we sold one stock for $20k and earned $9k in profit from this operation. However, since the total amount of the operation is no more than $20k and we previously incurred losses, we don't decrease the amount of losses by the amount of gained profit. Essentially, we could always send stocks one by one to avoid taxes unless the stock unit price is over $20k. This case is not explicitly covered in the task description, specifically whether the positive profit should affect the losses amount for 20k-capped operations. I believe it should, because otherwise, the tax system has little sense. Nevertheless, I created two versions: one (main.py) that works as I believe it should and doesn't pass the 9th case, and another (main_t.) that passes all suggested tests.py
