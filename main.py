@@ -15,7 +15,8 @@ class CapitalGains:
 
         if type == 'buy':
             if self.qty:
-                self.weighted_avg_price = (self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty)
+                self.weighted_avg_price = round((self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty),
+                                                2)
             else:
                 self.weighted_avg_price = price
             self.qty += qty

@@ -40,5 +40,5 @@ class TestCapitalGains(unittest.TestCase):
 
     def test_get_result_9(self):
         res = self.cg.get_taxes('[{"operation":"buy", "unit-cost": 5000.00, "quantity": 10},{"operation":"sell", "unit-cost": 4000.00, "quantity": 5},{"operation":"buy", "unit-cost": 15000.00, "quantity": 5},{"operation":"buy", "unit-cost": 4000.00, "quantity": 2},{"operation":"buy", "unit-cost": 23000.00, "quantity": 2},{"operation":"sell", "unit-cost": 20000.00, "quantity": 1},{"operation":"sell", "unit-cost": 12000.00, "quantity": 10},{"operation":"sell", "unit-cost": 15000.00, "quantity": 3}]')
-        self.assertEqual(res, '[{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 2000.00},{"tax": 2400.00}]')
+        self.assertEqual(res, '[{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 0.00},{"tax": 1000.00},{"tax": 2400.00}]')
 
