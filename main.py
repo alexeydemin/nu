@@ -15,8 +15,7 @@ class CapitalGains:
 
         if type == 'buy':
             if self.qty:
-                self.weighted_avg_price = round((self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty),
-                                                2)
+                self.weighted_avg_price = round((self.qty * self.weighted_avg_price + qty * price) / (self.qty + qty), 2)
             else:
                 self.weighted_avg_price = price
             self.qty += qty
@@ -32,11 +31,9 @@ class CapitalGains:
             return tax
 
     def get_taxes(self, line):
-        events = json.loads('{"data": ' + line + '}')['data']
+        events = json.loads(line)
         taxes = [self.calc_tax(e) for e in events]
-        s = ','.join(f'{{"tax": {t:.2f}}}' for t in taxes)
-
-        return f'[{s}]'
+        return json.dumps([{"tax": '{0:.2f}'.format(t)} for t in taxes])
 
 
 if __name__ == '__main__':
