@@ -4,7 +4,7 @@ import json
 
 class CapitalGains:
     def __init__(self):
-        self.line = line
+        # self.line = line
         self.weighted_avg_price = 0
         self.qty = 0
         self.tax_rate = .2
@@ -25,7 +25,7 @@ class CapitalGains:
             print(f'WAP={self.weighted_avg_price}')
             print(f'SELL PROFIT_B = {self.profit}')
             print()
-            return 1
+            return 0
         else:
             self.profit += (price - self.weighted_avg_price) * qty
 
@@ -34,13 +34,12 @@ class CapitalGains:
 
             if price * qty <= self.tax_threshold or self.profit <= 0:
                 print('WE ARE HERE')
-
                 self.qty -= qty
                 print(f'SELL PROFIT_BEFORE = {self.profit}')
-                # self.profit = min(self.profit, 0)
+                self.profit = min(self.profit, 0)
                 print(f'SELL PROFIT* = {self.profit}')
                 print()
-                return 1.5
+                return 0
 
             tax = self.profit * self.tax_rate
             self.profit = min(self.profit, 0)
@@ -52,14 +51,15 @@ class CapitalGains:
 
             return tax
 
-    def get_taxes(self, line):
+    def get_result(self, line):
         events = json.loads('{"data": ' + line + '}')['data']
-        return [self.calc_tax(e) for e in events]
+        taxes = [self.calc_tax(e) for e in events]
+        s = ','.join(f'{{"tax": {t:.2f}}}' for t in taxes)
 
+        return f'[{s}]'
 
-input = fileinput.input()
-for line in input:
-    taxes = CapitalGains().get_taxes(line)
-    s = ', '.join(f'{{"tax":{t:.2f}}}' for t in taxes)
-    print(f'[{s}]')
-exit()
+if __name__ == '__main__':
+    input = fileinput.input()
+    for line in input:
+        res = CapitalGains().get_result(line)
+        print(res)
